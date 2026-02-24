@@ -4,7 +4,10 @@ name: QTTabBar
 
 on:
   push:
-    branches: [ vs2019 ]
+    branches: [ vs2019, main, master ]
+  pull_request:
+    branches: [ vs2019, main, master ]
+  workflow_dispatch:
    # tags:
     #- 'v*'
 
@@ -62,7 +65,8 @@ jobs:
       with:
         name: QTTabBar
         path: |
-          D:\a\QTTabBar\QTTabBar\bin\Release\**\*
+          QTTabBar/bin/Release/**
+          Installer/bin/Release/**
           
         
 #     - name: Create Release
