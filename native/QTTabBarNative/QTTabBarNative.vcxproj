@@ -96,7 +96,6 @@
       <TargetEnvironment>Win32</TargetEnvironment>
       <HeaderFileName>QTTabBarNative_i.h</HeaderFileName>
       <InterfaceIdentifierFileName>QTTabBarNative_i.c</InterfaceIdentifierFileName>
-      <GenerateClientFiles>Both</GenerateClientFiles>
     </Midl>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -123,7 +122,6 @@
       <TargetEnvironment>Win32</TargetEnvironment>
       <HeaderFileName>QTTabBarNative_i.h</HeaderFileName>
       <InterfaceIdentifierFileName>QTTabBarNative_i.c</InterfaceIdentifierFileName>
-      <GenerateClientFiles>Both</GenerateClientFiles>
     </Midl>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -146,7 +144,6 @@
       <TargetEnvironment>X64</TargetEnvironment>
       <HeaderFileName>QTTabBarNative_i.h</HeaderFileName>
       <InterfaceIdentifierFileName>QTTabBarNative_i.c</InterfaceIdentifierFileName>
-      <GenerateClientFiles>Both</GenerateClientFiles>
     </Midl>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -173,7 +170,6 @@
       <TargetEnvironment>X64</TargetEnvironment>
       <HeaderFileName>QTTabBarNative_i.h</HeaderFileName>
       <InterfaceIdentifierFileName>QTTabBarNative_i.c</InterfaceIdentifierFileName>
-      <GenerateClientFiles>Both</GenerateClientFiles>
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
