@@ -86,10 +86,8 @@ jobs:
       with:
         name: QTTabBar
         path: |
-          BandObjectLib/bin/Release/**
-          QTPluginLib/bin/Release/**
           QTTabBar/bin/Release/**
-          Plugins/**/bin/Release/**
+          Installer/bin/Release/**
           
         
 #     - name: Create Release
