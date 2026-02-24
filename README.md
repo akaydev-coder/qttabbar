@@ -100,7 +100,7 @@ Yes, you can compile it directly on GitHub:
 
 The workflow is configured in `.github/workflows/QTTabBar.yml` and uses `windows-latest`, `nuget restore`, and `msbuild`.
 
-> Note: GitHub-hosted runners do not ship VS2010 (`v100`) C++ toolsets and some legacy installer/native prerequisites. The CI workflow therefore builds the managed deliverables (`QTTabBar` + plugin assemblies) as a compatibility baseline.
+> Note: GitHub-hosted runners do not ship VS2010 (`v100`) C++ toolsets and some legacy installer/native prerequisites. The CI workflow therefore builds the managed deliverables (plugin assemblies and shared managed libraries) as a compatibility baseline.
 
 # Problems
 * [Tutorial](https://gitee.com/qwop/qttabbar/attach_files/581155/download)
