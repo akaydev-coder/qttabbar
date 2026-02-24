@@ -107,6 +107,17 @@ jobs:
 #         asset_name: DBCHM.exe
 #         asset_content_type: application/zip        
         
+
+    - name: Upload project components (source bundle)
+      uses: actions/upload-artifact@v4
+      with:
+        name: QTTabBar-project-components
+        path: |
+          QTTabBar/**
+          native/QTTabBarNative/**
+          QTHookLib/**
+          QTTabBar Rebirth.sln
+
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
