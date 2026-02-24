@@ -73,12 +73,7 @@ jobs:
         )
 
         foreach ($project in $projects) {
-          if ($project -eq 'QTTabBar/QTTabBar.csproj') {
-            msbuild $project /t:Rebuild /p:Configuration=${{ matrix.configuration }} /p:ResolveComReferenceMSBuildArchitecture=x86
-          }
-          else {
-            msbuild $project /t:Rebuild /p:Configuration=${{ matrix.configuration }}
-          }
+          msbuild $project /t:Rebuild /p:Configuration=${{ matrix.configuration }} /p:Platform=x86 /p:ResolveComReferenceMSBuildArchitecture=x86
         }
         
 #     - name: Zip the release dir   
@@ -91,10 +86,8 @@ jobs:
       with:
         name: QTTabBar
         path: |
-          BandObjectLib/bin/Release/**
-          QTPluginLib/bin/Release/**
           QTTabBar/bin/Release/**
-          Plugins/**/bin/Release/**
+          Installer/bin/Release/**
           
         
 #     - name: Create Release
