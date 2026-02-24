@@ -4,13 +4,8 @@ name: QTTabBar
 
 on:
   push:
-    branches: [ vs2019, main, master ]
   pull_request:
-    branches: [ vs2019, main, master ]
   workflow_dispatch:
-   # tags:
-    #- 'v*'
-
 jobs:
 
   build:
@@ -54,7 +49,6 @@ jobs:
     - name: Build managed projects (CI-safe)
       shell: pwsh
       run: |
-<<<<<<< codex/troubleshoot-compilation-of-nuwon-fork-o8vuyk
         # Build via solution targets so legacy per-project Platform/OutputPath mappings are resolved by the .sln
         $targets = @(
           'BandObjectLib',
@@ -77,30 +71,6 @@ jobs:
         $targetList = [string]::Join(';', $targets)
         msbuild $env:Solution_Name /t:$targetList /p:Configuration=${{ matrix.configuration }} /p:Platform="Mixed Platforms" /p:ResolveComReferenceMSBuildArchitecture=x86
 
-=======
-        $projects = @(
-          'BandObjectLib/BandObjectLib.csproj',
-          'QTPluginLib/QTPluginLib.csproj',
-          'QTTabBar/QTTabBar.csproj',
-          'Plugins/CreateNewItem/CreateNewItem.csproj',
-          'Plugins/QTClock/QTClock.csproj',
-          'Plugins/QTFileTools/QTFileTools.csproj',
-          'Plugins/QTFolderButton/QTFolderButton.csproj',
-          'Plugins/QTViewModeButton/ViewModeButton.csproj',
-          'Plugins/QTWindowManager/QTWindowManager.csproj',
-          'Plugins/Sample/SamplePlugin.csproj',
-          'Plugins/ShowStatusBar/ShowStatusBar.csproj',
-          'Plugins/MigemoLoader/MigemoLoader.csproj',
-          'Plugins/Memo/Memo.csproj',
-          'Plugins/TurnOffRepeat/TurnOffRepeat.csproj',
-          'Plugins/ActivateByMouseHover/ActivateByMouseHover.csproj'
-        )
-
-        foreach ($project in $projects) {
-          msbuild $project /t:Rebuild /p:Configuration=${{ matrix.configuration }} /p:Platform=x86 /p:ResolveComReferenceMSBuildArchitecture=x86
-        }
-        
->>>>>>> master
 #     - name: Zip the release dir   
 #     - uses: montudor/action-zip@v0.1.1
 #       with:
@@ -111,15 +81,10 @@ jobs:
       with:
         name: QTTabBar
         path: |
-<<<<<<< codex/troubleshoot-compilation-of-nuwon-fork-o8vuyk
           BandObjectLib/bin/Release/**
           QTPluginLib/bin/Release/**
           QTTabBar/bin/Release/**
           Plugins/**/bin/Release/**
-=======
-          QTTabBar/bin/Release/**
-          Installer/bin/Release/**
->>>>>>> master
           
         
 #     - name: Create Release
