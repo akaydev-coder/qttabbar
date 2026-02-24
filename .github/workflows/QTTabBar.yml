@@ -49,11 +49,32 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: nuget restore $env:Solution_Name
   
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Rebuild the application
-      run: msbuild $env:Solution_Name /t:Rebuild /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
+    # The full legacy solution requires VS2010 toolsets (v100), old MIDL options and installer bits
+    # that are not available on GitHub-hosted runners. Build the managed deliverables instead.
+    - name: Build managed projects (CI-safe)
+      shell: pwsh
+      run: |
+        $projects = @(
+          'BandObjectLib/BandObjectLib.csproj',
+          'QTPluginLib/QTPluginLib.csproj',
+          'QTTabBar/QTTabBar.csproj',
+          'Plugins/CreateNewItem/CreateNewItem.csproj',
+          'Plugins/QTClock/QTClock.csproj',
+          'Plugins/QTFileTools/QTFileTools.csproj',
+          'Plugins/QTFolderButton/QTFolderButton.csproj',
+          'Plugins/QTViewModeButton/ViewModeButton.csproj',
+          'Plugins/QTWindowManager/QTWindowManager.csproj',
+          'Plugins/Sample/SamplePlugin.csproj',
+          'Plugins/ShowStatusBar/ShowStatusBar.csproj',
+          'Plugins/MigemoLoader/MigemoLoader.csproj',
+          'Plugins/Memo/Memo.csproj',
+          'Plugins/TurnOffRepeat/TurnOffRepeat.csproj',
+          'Plugins/ActivateByMouseHover/ActivateByMouseHover.csproj'
+        )
+
+        foreach ($project in $projects) {
+          msbuild $project /t:Rebuild /p:Configuration=${{ matrix.configuration }} /p:Platform=x86 /p:ResolveComReferenceMSBuildArchitecture=x86
+        }
         
 #     - name: Zip the release dir   
 #     - uses: montudor/action-zip@v0.1.1
