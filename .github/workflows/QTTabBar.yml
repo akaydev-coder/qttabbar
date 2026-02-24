@@ -49,26 +49,26 @@ jobs:
     - name: Build managed projects (CI-safe)
       shell: pwsh
       run: |
-        # Build via solution targets so legacy per-project Platform/OutputPath mappings are resolved by the .sln
-        $targets = @(
-          'BandObjectLib',
-          'QTPluginLib',
-          'CreateNewItem',
-          'QTClock',
-          'QTFileTools',
-          'QTFolderButton',
-          'ViewModeButton',
-          'QTWindowManager',
-          'SamplePlugin',
-          'ShowStatusBar',
-          'MigemoLoader',
-          'Memo',
-          'TurnOffRepeat',
-          'ActivateByMouseHover'
+        $projects = @(
+          'BandObjectLib/BandObjectLib.csproj',
+          'QTPluginLib/QTPluginLib.csproj',
+          'Plugins/CreateNewItem/CreateNewItem.csproj',
+          'Plugins/QTClock/QTClock.csproj',
+          'Plugins/QTFileTools/QTFileTools.csproj',
+          'Plugins/QTFolderButton/QTFolderButton.csproj',
+          'Plugins/QTViewModeButton/ViewModeButton.csproj',
+          'Plugins/QTWindowManager/QTWindowManager.csproj',
+          'Plugins/Sample/SamplePlugin.csproj',
+          'Plugins/ShowStatusBar/ShowStatusBar.csproj',
+          'Plugins/MigemoLoader/MigemoLoader.csproj',
+          'Plugins/Memo/Memo.csproj',
+          'Plugins/TurnOffRepeat/TurnOffRepeat.csproj',
+          'Plugins/ActivateByMouseHover/ActivateByMouseHover.csproj'
         )
 
-        $targetList = [string]::Join(';', $targets)
-        msbuild $env:Solution_Name /t:$targetList /p:Configuration=${{ matrix.configuration }} /p:Platform="Mixed Platforms"
+        foreach ($project in $projects) {
+          msbuild $project /t:Rebuild /p:Configuration=${{ matrix.configuration }} /p:Platform=AnyCPU
+        }
 
 #     - name: Zip the release dir   
 #     - uses: montudor/action-zip@v0.1.1
