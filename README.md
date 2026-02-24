@@ -69,6 +69,39 @@ The native (C++) host now dispatches keyboard shortcuts and mouse chords through
 * Git pull NotifyPropertyWeaverVsPackage.vsix
 * Qttabbar Project Add Referrence Ricciolo.Controls.TreeListView, Path QTTabBar\Resources\Ricciolo.Controls.TreeListView.dll
 
+## Build on newer Windows toolchains (recommended)
+
+If VS2010 fails on your machine, the project can still be built with a modern Windows image (same approach used by GitHub Actions):
+
+1. Install **Visual Studio 2019 or 2022** with:
+   - .NET desktop development
+   - Desktop development with C++
+   - MSBuild + NuGet tooling
+2. Install **.NET Framework 3.5 targeting pack**.
+3. Install **WiX Toolset v3.11** (if you need the installer project).
+4. Open `QTTabBar Rebirth.sln` and run **NuGet restore**.
+5. Build with `Release | x86` first (legacy Explorer extension target).
+
+Command line example (Developer Command Prompt):
+
+```bat
+nuget restore "QTTabBar Rebirth.sln"
+msbuild "QTTabBar Rebirth.sln" /t:Rebuild /p:Configuration=Release /p:Platform=x86
+```
+
+## Build via GitHub Actions
+
+Yes, you can compile it directly on GitHub:
+
+1. Push your branch to your fork.
+2. Open the **Actions** tab.
+3. Run the `QTTabBar` workflow manually (**Run workflow**) or push/PR to trigger it.
+4. Download artifacts from the workflow run.
+
+The workflow is configured in `.github/workflows/QTTabBar.yml` and uses `windows-latest`, `nuget restore`, and `msbuild`.
+
+> Note: GitHub-hosted runners do not ship VS2010 (`v100`) C++ toolsets and some legacy installer/native prerequisites. The CI workflow therefore builds the managed deliverables (`QTTabBar` + plugin assemblies) as a compatibility baseline.
+
 # Problems
 * [Tutorial](https://gitee.com/qwop/qttabbar/attach_files/581155/download)
 * [Open option flashback solution revision](https://gitee.com/qwop/qttabbar/attach_files/581136/download)
