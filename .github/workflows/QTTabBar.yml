@@ -27,7 +27,7 @@ jobs:
 
     steps:
     - name: 拉取代码
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
         
@@ -61,7 +61,7 @@ jobs:
 #         args: zip -qq -r DBCHM.zip DBCHM\bin\Release        
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: QTTabBar
         path: |
