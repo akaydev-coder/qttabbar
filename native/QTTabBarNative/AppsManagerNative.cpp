@@ -305,8 +305,7 @@ std::vector<UserAppMenuNodeNative> AppsManagerNative::BuildNodes(size_t& offset,
         node.sequentialIndex = offset;
         ++offset;
         if(entry.IsFolder()) {
-            const size_t childrenCount =
-                entry.childrenCount > 0 ? static_cast<size_t>(entry.childrenCount) : size_t{0};
+            const size_t childrenCount = entry.childrenCount > 0 ? (size_t)entry.childrenCount : 0u;
             node.children = BuildNodes(offset, childrenCount);
         }
         node.span = offset - node.sequentialIndex;
