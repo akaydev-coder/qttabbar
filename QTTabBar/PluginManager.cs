@@ -158,8 +158,6 @@ namespace QTTabBarLib {
             return dicPluginAssemblies.TryGetValue(path, out asm);
         }
 
-            RefreshNativeMetadataCache();
-            ApplyNativeEnablement(Config.Plugin.Enabled);
         // 处理插件的异常
         public static void HandlePluginException(Exception ex, IntPtr hwnd, string pluginID, string strCase) {
             MessageForm.Show(hwnd, 
@@ -172,6 +170,8 @@ namespace QTTabBarLib {
         public static void Initialize() {
             // add by indiff.
             InitDefaultQTConfigPlugin();    
+            RefreshNativeMetadataCache();
+            ApplyNativeEnablement(Config.Plugin.Enabled);
             foreach(PluginAssembly pa in ReadAssemblyPaths().Select(LoadAssembly)) {
                 if(pa == null) continue;
                 foreach(PluginInformation info in pa.PluginInformations) {
