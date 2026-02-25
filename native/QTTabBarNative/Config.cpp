@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Config.h"
 #include "HookManagerNative.h"
 
@@ -1187,4 +1189,3 @@ void UpdateConfigSideEffects(ConfigData& config, bool broadcastChanges) {
 }
 
 }  // namespace qttabbar
-
