@@ -78,8 +78,6 @@
                         <File Id="f4_native" KeyPath="yes" Name="QTTabBarNative.dll" Source="..\native\QTTabBarNative\x64\Release\QTTabBarNative.dll">
                             <Class Id="{D2BF470E-ED1C-487F-A333-2BD8835EB6CE}" Context="InprocServer32" Description="QTTabBar" ThreadingModel="both">
                                 <ProgId Id="QTTabBarLib.QTTabBarClass" Description="QTTabBarLib.QTTabBarClass" />
-                                <ImplementedCategory Id="{00021492-0000-0000-C000-000000000046}" />
-                                <ImplementedCategory Id="{62C8FE65-4EBB-45E7-B440-6E39B2CDBF29}" />
                             </Class>
                         </File>
                     </Component>
