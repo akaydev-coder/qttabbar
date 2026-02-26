@@ -14,7 +14,7 @@ jobs:
     env:
       SOLUTION_FILE: QTTabBar Rebirth.sln
       CONFIGURATION: Release
-      PLATFORM: Any CPU
+      PLATFORM: Mixed Platforms
 
     steps:
       - name: Checkout
@@ -36,6 +36,8 @@ jobs:
           /m
           /p:Configuration="$env:CONFIGURATION"
           /p:Platform="$env:PLATFORM"
+          /p:VisualStudioVersion=17.0
+          /p:PostBuildEventUseInBuild=false
 
       - name: Create release zip
         shell: pwsh

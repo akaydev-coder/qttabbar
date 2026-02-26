@@ -72,22 +72,29 @@ Starte **x64 Native Tools Command Prompt for VS 2022** und führe aus:
 ```bat
 cd /d D:\src\qttabbar
 nuget restore "QTTabBar Rebirth.sln" -Source "D:\qttabbar-offline-kit\packages"
-msbuild "QTTabBar Rebirth.sln" /t:Rebuild /m /p:Configuration=Release /p:Platform="Any CPU"
+msbuild "QTTabBar Rebirth.sln" /t:Rebuild /m /p:Configuration=Release /p:Platform="Mixed Platforms" /p:VisualStudioVersion=17.0
 ```
 
 ## 7) Häufige Offline-Probleme
 
-- **Fehlendes .NET 3.5 Targeting Pack**  
+- **Fehlendes .NET 3.5 Targeting Pack**
   → In VS Installer (offline layout) das Targeting Pack nachinstallieren.
 
-- **WiX-Projekt baut nicht**  
+- **WiX-Projekt baut nicht**
   → Prüfen, ob WiX 3.11 korrekt installiert ist und die VS-Erweiterung geladen wurde.
 
-- **NuGet kann Pakete nicht finden**  
+- **NuGet kann Pakete nicht finden**
   → Offline-Quelle prüfen und sicherstellen, dass alle Pakete im lokalen Ordner liegen.
 
-- **Fehlende/alte SDKs**  
+- **Fehlende/alte SDKs**
   → Das VS-Offline-Layout mit den benötigten Komponenten neu erstellen.
+
+- **MSB8020 (fehlendes PlatformToolset)**
+  → Prüfen, ob in C++ Projekten `PlatformToolset` auf `v143` steht und die VS2022 C++ Build Tools installiert sind.
+
+- **MSB6011 / MSB4181 bei Post-Build-Events**
+  → Build testweise mit deaktivierten Post-Build-Events starten:
+  `msbuild "QTTabBar Rebirth.sln" /t:Rebuild /m /p:Configuration=Release /p:Platform="Mixed Platforms" /p:PostBuildEventUseInBuild=false`
 
 ## 8) Empfohlener Workflow
 

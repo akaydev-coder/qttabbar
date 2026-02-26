@@ -15,14 +15,11 @@ permissions:
 jobs:
   build:
     runs-on: windows-2022
-    strategy:
-      fail-fast: false
-      matrix:
-        configuration: [Release]
-        platform: ["Any CPU"]
 
     env:
       SOLUTION_FILE: QTTabBar Rebirth.sln
+      CONFIGURATION: Release
+      PLATFORM: Mixed Platforms
 
     steps:
       - name: Checkout
@@ -42,15 +39,19 @@ jobs:
           msbuild "$env:SOLUTION_FILE"
           /t:Rebuild
           /m
-          /p:Configuration=${{ matrix.configuration }}
-          /p:Platform="${{ matrix.platform }}"
+          /p:Configuration="$env:CONFIGURATION"
+          /p:Platform="$env:PLATFORM"
+          /p:VisualStudioVersion=17.0
+          /p:PostBuildEventUseInBuild=false
 
-      - name: Upload managed build artifacts
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: QTTabBar-${{ matrix.configuration }}
+          name: QTTabBar-${{ env.CONFIGURATION }}
           if-no-files-found: warn
           path: |
-            QTTabBar/bin/${{ matrix.configuration }}/**/*
-            QTPluginLib/bin/${{ matrix.configuration }}/**/*
-            MultithreadedTabBar/bin/${{ matrix.configuration }}/**/*
+            QTTabBar/bin/${{ env.CONFIGURATION }}/**/*
+            QTPluginLib/bin/${{ env.CONFIGURATION }}/**/*
+            MultithreadedTabBar/bin/${{ env.CONFIGURATION }}/**/*
+            native/QTTabBarNative/x64/${{ env.CONFIGURATION }}/**/*
+            native/QTTabBarNative/Release/**/*
