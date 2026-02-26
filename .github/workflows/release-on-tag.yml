@@ -1,0 +1,49 @@
+name: Release on Tag (VS2022)
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-2022
+    env:
+      SOLUTION_FILE: QTTabBar Rebirth.sln
+      CONFIGURATION: Release
+      PLATFORM: Any CPU
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore "$env:SOLUTION_FILE"
+
+      - name: Build solution
+        run: >-
+          msbuild "$env:SOLUTION_FILE"
+          /t:Rebuild
+          /m
+          /p:Configuration="$env:CONFIGURATION"
+          /p:Platform="$env:PLATFORM"
+
+      - name: Create release zip
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path dist -Force | Out-Null
+          Compress-Archive -Path "QTTabBar/bin/$env:CONFIGURATION/*" -DestinationPath "dist/QTTabBar-$env:CONFIGURATION.zip" -Force
+
+      - name: Publish artifacts to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
