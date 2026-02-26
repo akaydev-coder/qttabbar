@@ -8,6 +8,7 @@
 #include <shobjidl_core.h>
 
 #include "TabBarHost.h"
+#include "TabBarHostOwner.h"
 
 class QTSecondViewBar;
 
@@ -79,6 +80,8 @@ class ATL_NO_VTABLE QTSecondViewBar final
     , public CWindowImpl<QTSecondViewBar, CWindow, CControlWinTraits>
     , public ITabBarHostOwner {
 public:
+    using WindowBaseT = CWindowImpl<QTSecondViewBar, CWindow, CControlWinTraits>;
+
     QTSecondViewBar() noexcept;
     ~QTSecondViewBar() override;
 
@@ -106,7 +109,7 @@ public:
         MESSAGE_HANDLER(WM_COMMAND, OnCommand)
         MESSAGE_HANDLER(WM_SETFOCUS, OnSetFocus)
         MESSAGE_HANDLER(WM_KILLFOCUS, OnKillFocus)
-        CHAIN_MSG_MAP(CWindowImpl<QTSecondViewBar, CWindow, CControlWinTraits>)
+        CHAIN_MSG_MAP(WindowBaseT)
     END_MSG_MAP()
 
     HRESULT FinalConstruct();
@@ -187,4 +190,3 @@ private:
     std::unique_ptr<ExplorerBrowserHost> m_browserHost;
     std::unique_ptr<SplitterBar> m_splitter;
 };
-

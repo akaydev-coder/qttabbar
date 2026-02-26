@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "Config.h"
+#include "TabBarHostOwner.h"
 
 class SubDirTipWindow;
 
@@ -22,14 +23,6 @@ interface IShellBrowser;
 interface IShellView;
 interface IDataObject;
 interface IContextMenu;
-
-class ITabBarHostOwner {
-public:
-    virtual ~ITabBarHostOwner() = default;
-    virtual HWND GetHostWindow() const noexcept = 0;
-    virtual HWND GetHostRebarWindow() const noexcept = 0;
-    virtual void NotifyTabHostFocusChange(BOOL hasFocus) = 0;
-};
 
 class TabBarHost final
     : public CWindowImpl<TabBarHost, CWindow, CControlWinTraits>
@@ -288,4 +281,3 @@ private:
     friend class NativeTabControl;
     friend class QTTabBarClass;
 };
-

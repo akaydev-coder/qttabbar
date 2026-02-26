@@ -33,9 +33,10 @@ class ATL_NO_VTABLE QTDesktopTool final
     , public IPersistStream
     , public IOleWindow
     , public CWindowImpl<QTDesktopTool, CWindow, CControlWinTraits>
-    , public qttabbar::hooks::IHookEventSink
-{
+    , public qttabbar::hooks::IHookEventSink {
 public:
+    using WindowBaseT = CWindowImpl<QTDesktopTool, CWindow, CControlWinTraits>;
+
     QTDesktopTool() noexcept;
     ~QTDesktopTool() override;
 
@@ -62,7 +63,7 @@ public:
         MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
         MESSAGE_HANDLER(WM_CONTEXTMENU, OnContextMenu)
         MESSAGE_HANDLER(WM_APP_MODEL_READY, OnModelReady)
-        CHAIN_MSG_MAP(CWindowImpl<QTDesktopTool, CWindow, CControlWinTraits>)
+        CHAIN_MSG_MAP(WindowBaseT)
     END_MSG_MAP()
 
     HRESULT FinalConstruct();
@@ -219,4 +220,3 @@ private:
     std::atomic<bool> m_closing{false};
     std::atomic<bool> m_hookInitialized{false};
 };
-

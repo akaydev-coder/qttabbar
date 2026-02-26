@@ -24,6 +24,8 @@ class ATL_NO_VTABLE QTButtonBar final
     , public IPersistStream
     , public CWindowImpl<QTButtonBar, CWindow, CControlWinTraits> {
 public:
+    using WindowBaseT = CWindowImpl<QTButtonBar, CWindow, CControlWinTraits>;
+
     QTButtonBar() noexcept;
     ~QTButtonBar() override;
 
@@ -48,7 +50,7 @@ public:
         MESSAGE_HANDLER(WM_SIZE, OnSize)
         MESSAGE_HANDLER(WM_COMMAND, OnCommand)
         MESSAGE_HANDLER(WM_NOTIFY, OnNotify)
-        CHAIN_MSG_MAP(CWindowImpl<QTButtonBar, CWindow, CControlWinTraits>)
+        CHAIN_MSG_MAP(WindowBaseT)
     END_MSG_MAP()
 
     HRESULT FinalConstruct();
@@ -141,4 +143,3 @@ private:
     UINT m_nextDynamicCommand;
     std::unordered_map<UINT, std::function<void()>> m_menuHandlers;
 };
-
