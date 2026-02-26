@@ -260,16 +260,26 @@ FontConfig ParseFont(const json& j) {
     FontConfig font;
     if (j.is_object()) {
         auto extractString = [&](const char* primary, const char* alt) -> std::optional<std::wstring> {
-            auto it = j.find(primary);
-            if (it != j.end() && it->is_string()) {
+            auto convert = [&](const char* key) -> std::optional<std::wstring> {
+                auto it = j.find(key);
+                if (it == j.end() || !it->is_string()) {
+                    return std::nullopt;
+                }
                 std::string utf8 = it->get<std::string>();
                 int len = MultiByteToWideChar(CP_UTF8, 0, utf8.c_str(), static_cast<int>(utf8.size()), nullptr, 0);
-                std::wstring wide(len, L'\0');
+                if (len <= 0) {
+                    return std::nullopt;
+                }
+                std::wstring wide(static_cast<size_t>(len), L'\0');
                 MultiByteToWideChar(CP_UTF8, 0, utf8.c_str(), static_cast<int>(utf8.size()), wide.data(), len);
                 return wide;
+            };
+
+            if (auto value = convert(primary)) {
+                return value;
             }
-            if (alt) {
-                return extractString(alt, nullptr);
+            if (alt != nullptr) {
+                return convert(alt);
             }
             return std::nullopt;
         };
@@ -514,8 +524,8 @@ std::wstring StretchModeToString(StretchMode mode) {
 }
 
 int ValidateMinMax(int value, int minValue, int maxValue) {
-    int a = std::min(minValue, maxValue);
-    int b = std::max(minValue, maxValue);
+    int a = (minValue < maxValue) ? minValue : maxValue;
+    int b = (minValue < maxValue) ? maxValue : minValue;
     if (value < a) return a;
     if (value > b) return b;
     return value;
