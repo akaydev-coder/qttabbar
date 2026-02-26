@@ -63,6 +63,9 @@ The native (C++) host now dispatches keyboard shortcuts and mouse chords through
 - [Setting for Windows 11](https://github.com/indiff/qttabbar/wiki/Windows11%E6%98%BE%E7%A4%BA%E5%B7%A5%E5%85%B7%E6%A0%8F%E7%9A%84%E6%96%B9%E6%B3%95)
 
 # Build
+* Online Build (GitHub Actions, VS2022): `.github/workflows/online-build.yml`
+* Tag Release Build (GitHub Actions): `.github/workflows/release-on-tag.yml`
+* Offline Build Guide (VS2022 VM): `docs/offline-build-vs2022.md`
 * Install [wix311.exe](https://github.com/wixtoolset/wix3/releases)
 * Install wix visual [Plugin](https://marketplace.visualstudio.com/items?itemName=WixToolset.WixToolsetVisualStudio2010Extension)  
 * Install visual studio 2010  [Baidu Pan](https://pan.baidu.com/s/1sldAQmD#list/path=%2FVS%E4%BE%BF%E6%90%BA%E7%B2%BE%E7%AE%80%E7%89%88%E5%90%88%E9%9B%86)
