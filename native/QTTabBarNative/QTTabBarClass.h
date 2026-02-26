@@ -4,6 +4,7 @@
 #include "resource.h"
 #include "HookMessages.h"
 #include "ConfigEnums.h"
+#include "TabBarHost.h"
 
 #include <optional>
 
@@ -26,6 +27,7 @@ class ATL_NO_VTABLE QTTabBarClass final
     , public ITabBarHostOwner
 {
 public:
+    using BaseWindow = CWindowImpl<QTTabBarClass, CWindow, CControlWinTraits>;
     static constexpr int kButtonSeparatorIndex = 0;
     static constexpr int kButtonNavigationBackIndex = 1;
     static constexpr int kButtonNavigationForwardIndex = 2;
@@ -81,7 +83,7 @@ public:
         MESSAGE_HANDLER(qttabbar::hooks::WM_APP_CAPTURE_NEW_WINDOW, OnCaptureNewWindow)
         MESSAGE_HANDLER(qttabbar::hooks::WM_APP_TRAY_SELECT, OnTraySelection)
         MESSAGE_HANDLER(WM_APP_UNSUBCLASS, OnUnsetRebarMonitor)
-        CHAIN_MSG_MAP(CWindowImpl<QTTabBarClass, CWindow, CControlWinTraits>)
+        CHAIN_MSG_MAP(BaseWindow)
     END_MSG_MAP()
 
     HRESULT FinalConstruct();
@@ -183,4 +185,3 @@ private:
 
     friend class TabBarHost;
 };
-
