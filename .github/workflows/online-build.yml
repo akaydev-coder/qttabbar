@@ -1,0 +1,57 @@
+name: Online Build (VS2022)
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - vs2019
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    env:
+      SOLUTION_FILE: QTTabBar Rebirth.sln
+      CONFIGURATION: Release
+      PLATFORM: Mixed Platforms
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore "$env:SOLUTION_FILE"
+
+      - name: Build solution
+        run: >-
+          msbuild "$env:SOLUTION_FILE"
+          /t:Rebuild
+          /m
+          /p:Configuration="$env:CONFIGURATION"
+          /p:Platform="$env:PLATFORM"
+          /p:VisualStudioVersion=17.0
+          /p:PostBuildEventUseInBuild=false
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: QTTabBar-${{ env.CONFIGURATION }}
+          if-no-files-found: warn
+          path: |
+            QTTabBar/bin/${{ env.CONFIGURATION }}/**/*
+            QTPluginLib/bin/${{ env.CONFIGURATION }}/**/*
+            MultithreadedTabBar/bin/${{ env.CONFIGURATION }}/**/*
+            native/QTTabBarNative/x64/${{ env.CONFIGURATION }}/**/*
+            native/QTTabBarNative/Release/**/*
