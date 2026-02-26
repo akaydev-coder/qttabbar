@@ -24,7 +24,7 @@ class ATL_NO_VTABLE QTButtonBar final
     , public IPersistStream
     , public CWindowImpl<QTButtonBar, CWindow, CControlWinTraits> {
 public:
-    using BaseWindow = CWindowImpl<QTButtonBar, CWindow, CControlWinTraits>;
+    using WindowBaseT = CWindowImpl<QTButtonBar, CWindow, CControlWinTraits>;
 
     QTButtonBar() noexcept;
     ~QTButtonBar() override;
@@ -50,7 +50,7 @@ public:
         MESSAGE_HANDLER(WM_SIZE, OnSize)
         MESSAGE_HANDLER(WM_COMMAND, OnCommand)
         MESSAGE_HANDLER(WM_NOTIFY, OnNotify)
-        CHAIN_MSG_MAP(BaseWindow)
+        CHAIN_MSG_MAP(WindowBaseT)
     END_MSG_MAP()
 
     HRESULT FinalConstruct();
