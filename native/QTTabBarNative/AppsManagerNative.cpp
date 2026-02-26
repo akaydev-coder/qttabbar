@@ -305,7 +305,8 @@ std::vector<UserAppMenuNodeNative> AppsManagerNative::BuildNodes(size_t& offset,
         node.sequentialIndex = offset;
         ++offset;
         if(entry.IsFolder()) {
-            node.children = BuildNodes(offset, static_cast<size_t>(std::max(entry.childrenCount, 0)));
+            const size_t childrenCount = entry.childrenCount > 0 ? (size_t)entry.childrenCount : 0u;
+            node.children = BuildNodes(offset, childrenCount);
         }
         node.span = offset - node.sequentialIndex;
         nodes.push_back(std::move(node));
@@ -357,4 +358,3 @@ std::wstring AppsManagerNative::ReplaceVariables(const std::wstring& input, cons
 }
 
 }  // namespace qttabbar
-
