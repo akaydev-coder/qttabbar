@@ -576,12 +576,6 @@ bool IsWindowsXpOrEarlier() {
 bool IsWindows7OrGreaterOs() {
     return IsWindows7OrGreater();
 }
-
-
-
-
-}  // namespace
-
 ConfigData::ConfigData() {
     window.captureWeChatSelection = true;
     window.defaultLocation = PidlFromDisplayName(L"::{20D04FE0-3AEA-1069-A2D8-08002B30309D}");
