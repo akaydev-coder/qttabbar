@@ -44,14 +44,33 @@ jobs:
           /p:VisualStudioVersion=17.0
           /p:PostBuildEventUseInBuild=false
 
+      - name: Create project components archive
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path dist -Force | Out-Null
+          New-Item -ItemType Directory -Path package -Force | Out-Null
+
+          $sourceDirs = @(
+            "QTTabBar/bin/$env:CONFIGURATION",
+            "QTPluginLib/bin/$env:CONFIGURATION",
+            "MultithreadedTabBar/bin/$env:CONFIGURATION",
+            "native/QTTabBarNative/Win32/$env:CONFIGURATION",
+            "native/QTTabBarNative/x64/$env:CONFIGURATION"
+          )
+
+          foreach ($dir in $sourceDirs) {
+            if (Test-Path $dir) {
+              $name = $dir.Replace('/', '_').Replace('\\', '_').Replace(':', '')
+              New-Item -ItemType Directory -Path "package/$name" -Force | Out-Null
+              Copy-Item -Path "$dir/*" -Destination "package/$name" -Recurse -Force
+            }
+          }
+
+          Compress-Archive -Path "package/*" -DestinationPath "dist/QTTabBar-project-components.zip" -Force
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: QTTabBar-${{ env.CONFIGURATION }}
-          if-no-files-found: warn
-          path: |
-            QTTabBar/bin/${{ env.CONFIGURATION }}/**/*
-            QTPluginLib/bin/${{ env.CONFIGURATION }}/**/*
-            MultithreadedTabBar/bin/${{ env.CONFIGURATION }}/**/*
-            native/QTTabBarNative/x64/${{ env.CONFIGURATION }}/**/*
-            native/QTTabBarNative/Release/**/*
+          name: QTTabBar-project-components
+          if-no-files-found: error
+          path: dist/QTTabBar-project-components.zip

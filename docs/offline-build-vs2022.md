@@ -106,3 +106,10 @@ msbuild "QTTabBar Rebirth.sln" /t:Rebuild /m /p:Configuration=Release /p:Platfor
 ---
 
 Wenn du möchtest, kann ich als nächsten Schritt auch eine **komplette Checkliste als `build-offline.bat`** erstellen, damit du den gesamten Offline-Build in der VM mit einem Skript startest.
+
+
+## 9) GitHub-Action-Artefakte sinnvoll verwenden
+
+- `QTTabBar-project-components.zip` enthält die kompilierten Projekt-Komponenten inklusive nativer Binaries (`native/Win32` und `native/x64`).
+- `QTTabBar.zip` (Tag-Release) enthält das veröffentlichte Paket inklusive nativer `QTTabBarNative`-Buildausgaben.
+- Wenn der Offline-Build in der VM fehlschlägt, kannst du diese Artefakte als Fallback verwenden und in deiner Testumgebung entpacken.

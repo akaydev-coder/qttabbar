@@ -43,9 +43,25 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path dist -Force | Out-Null
-          Compress-Archive -Path "QTTabBar/bin/$env:CONFIGURATION/*" -DestinationPath "dist/QTTabBar-$env:CONFIGURATION.zip" -Force
+          New-Item -ItemType Directory -Path release-package -Force | Out-Null
+
+          if (Test-Path "QTTabBar/bin/$env:CONFIGURATION") {
+            Copy-Item -Path "QTTabBar/bin/$env:CONFIGURATION/*" -Destination "release-package" -Recurse -Force
+          }
+
+          if (Test-Path "native/QTTabBarNative/Win32/$env:CONFIGURATION") {
+            New-Item -ItemType Directory -Path "release-package/native/Win32" -Force | Out-Null
+            Copy-Item -Path "native/QTTabBarNative/Win32/$env:CONFIGURATION/*" -Destination "release-package/native/Win32" -Recurse -Force
+          }
+
+          if (Test-Path "native/QTTabBarNative/x64/$env:CONFIGURATION") {
+            New-Item -ItemType Directory -Path "release-package/native/x64" -Force | Out-Null
+            Copy-Item -Path "native/QTTabBarNative/x64/$env:CONFIGURATION/*" -Destination "release-package/native/x64" -Recurse -Force
+          }
+
+          Compress-Archive -Path "release-package/*" -DestinationPath "dist/QTTabBar.zip" -Force
 
       - name: Publish artifacts to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*.zip
+          files: dist/QTTabBar.zip
